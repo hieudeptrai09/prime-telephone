@@ -14,7 +14,6 @@
     --bone-dim:#C9BFAC;
     --brass:#C8933E;
     --brass-lt:#E8BE72;
-    --jade:#4FB89A;
     --line:rgba(200,147,62,.22);
 
     --viettel:#E03127;
@@ -51,8 +50,6 @@
     font-size:clamp(34px,8.5vw,68px);line-height:.94;text-transform:uppercase;margin:0 0 10px;
   }
   h1 em{font-style:normal;color:var(--brass-lt)}
-  .lede{max-width:54ch;font-size:14.5px;line-height:1.6;color:var(--bone-dim);margin:0}
-  .lede b{color:var(--bone);font-weight:600}
 
   /* ---------- bảng đầu số (signature) ---------- */
   .panel{
@@ -61,15 +58,7 @@
     box-shadow:inset 0 1px 0 rgba(232,190,114,.14), 0 18px 40px -28px #000;
     overflow:hidden;
   }
-  .panel-top{
-    display:flex;justify-content:space-between;align-items:center;gap:10px;
-    padding:9px 14px;border-bottom:1px solid var(--line);
-    font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone-dim);
-  }
-  .panel-top .state{color:var(--brass-lt)}
-  .panel-top .state.ok{color:var(--jade)}
-
-  .bank{padding:4px 14px 14px}
+  .bank{padding:14px 14px 16px}
   .bank-row{
     display:flex;align-items:flex-start;gap:12px;
     padding:12px 0;border-bottom:1px dashed rgba(239,231,214,.1);
@@ -105,7 +94,7 @@
   /* ---------- bảng lật ---------- */
   .flaps{
     display:flex;align-items:center;justify-content:center;gap:clamp(3px,1.2vw,7px);
-    padding:clamp(18px,5vw,28px) 10px clamp(12px,4vw,18px);
+    padding:clamp(24px,6vw,34px) 10px clamp(24px,6vw,32px);
     border-top:1px solid var(--line);
   }
   .gap{width:clamp(6px,2.4vw,16px)}
@@ -133,13 +122,6 @@
     50%{transform:perspective(200px) rotateX(88deg)}
     100%{transform:perspective(200px) rotateX(0)}
   }
-  .legend{
-    display:flex;gap:clamp(8px,3vw,22px);justify-content:center;padding:0 10px clamp(14px,4vw,20px);
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
-    color:rgba(201,191,172,.62);
-  }
-  .legend span:first-child{color:var(--brass)}
-
   .action{
     display:flex;align-items:center;gap:14px;flex-wrap:wrap;
     padding:13px 14px;border-top:1px solid var(--line);background:rgba(255,255,255,.015);
@@ -154,8 +136,6 @@
   .spin:active{transform:translateY(1px)}
   .spin[disabled]{opacity:.45;cursor:progress}
   .spin:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
-  .meter{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--bone-dim);display:flex;gap:16px;flex-wrap:wrap}
-  .meter b{color:var(--bone);font-weight:600}
   .ghost{
     -webkit-appearance:none;appearance:none;cursor:pointer;
     background:transparent;border:1px solid var(--line);color:var(--bone-dim);
@@ -166,42 +146,9 @@
   .ghost:focus-visible{outline:2px solid var(--brass-lt);outline-offset:2px}
   .ghost.right{margin-left:auto}
 
-  .proof{
-    margin-top:16px;border-left:2px solid var(--jade);background:rgba(79,184,154,.06);
-    padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.75;color:var(--bone-dim);
-  }
-  .proof .row{display:flex;gap:10px}
-  .proof .k{color:rgba(201,191,172,.55);min-width:112px;text-transform:uppercase;letter-spacing:.1em;font-size:10px;padding-top:3px}
-  .proof .v{color:var(--bone)}
-  .proof .v .hl{color:var(--jade);font-weight:600}
-  .proof.idle{border-left-color:var(--line);background:rgba(255,255,255,.02)}
-
-  .hist-h{
-    font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
-    color:var(--brass);margin:28px 0 10px;display:flex;align-items:center;gap:10px;
-  }
-  .hist-h::after{content:"";flex:1;height:1px;background:var(--line)}
-  .hist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-  .hist li{
-    display:flex;align-items:center;gap:10px;border-bottom:1px dashed rgba(239,231,214,.1);
-    padding:7px 2px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;animation:in .3s ease-out;
-  }
-  @keyframes in{from{opacity:0;transform:translateY(-4px)}to{opacity:1}}
-  .hist .dot{width:6px;height:6px;border-radius:50%;background:var(--c);flex:none}
-  .hist .who{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);margin-left:auto}
-  .hist-empty{font-size:12.5px;color:rgba(201,191,172,.5);font-family:var(--mono)}
-
-  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
-    font-size:12px;line-height:1.7;color:rgba(201,191,172,.6)}
-  footer b{color:var(--bone-dim);font-weight:600}
-
   @media (max-width:560px){
     .bank-row{flex-direction:column;gap:8px}
     .bank-name{width:auto;padding-top:0}
-    .meter{font-size:10.5px;gap:12px}
-    .ghost.right{margin-left:0}
-    .proof .row{flex-direction:column;gap:0}
-    .proof .k{padding-top:8px}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 </style>
@@ -211,40 +158,17 @@
 
   <div class="eyebrow">33 đầu số di động Việt Nam</div>
   <h1>Chọn đầu số,<br>quay <em>số nguyên tố</em></h1>
-  <p class="lede">Bấm một phím đầu số bên dưới. Ba ô đầu của bảng lật khoá theo phím đó, <b>bảy ô sau quay ngẫu nhiên cho tới khi bỏ chữ số 0 đi thì phần còn lại là số nguyên tố</b>.</p>
-
   <section class="panel">
-    <div class="panel-top">
-      <span id="pick">Chưa chọn đầu số</span>
-      <span class="state" id="state">Chờ quay</span>
-    </div>
-
     <div class="bank" id="bank"></div>
 
     <div class="flaps" id="flaps" aria-live="polite" aria-atomic="true"></div>
-    <div class="legend"><span>◤ đầu số</span><span>số thuê bao</span></div>
 
     <div class="action">
       <button class="spin" id="spin">Quay số</button>
-      <div class="meter">
-        <span>đã thử <b id="mAtt">0</b> số</span>
-        <span>trong <b id="mMs">0 ms</b></span>
-      </div>
       <button class="ghost right" id="rand">Đầu số bất kỳ</button>
       <button class="ghost" id="copy" hidden>Sao chép</button>
     </div>
   </section>
-
-  <div class="proof idle" id="proof">
-    <div class="row"><div class="k">Trạng thái</div><div class="v">Chọn một đầu số rồi nhấn <b>Quay số</b>.</div></div>
-  </div>
-
-  <h2 class="hist-h">Các số đã quay</h2>
-  <ul class="hist" id="hist"><li class="hist-empty">— trống —</li></ul>
-
-  <footer>
-    <b>Vietnamobile</b> có bốn đầu số: <b>052, 056, 058</b> và <b>092</b>. <b>iTel</b> dùng đầu số <b>087</b>, chạy trên hạ tầng VinaPhone. Gmobile (059, 099) chưa đưa vào bảng này.
-  </footer>
 </div>
 
 <script>
@@ -263,7 +187,6 @@ const ALL = Object.keys(OWNER);
 
 let prefix = null;
 let busy = false;
-let history = [];
 
 /* ---------- số nguyên tố: chia thử 6k ± 1 ---------- */
 function isPrime(n){
@@ -279,16 +202,12 @@ function isPrime(n){
 /* ---------- quay 7 chữ số cuối tới khi ra nguyên tố ---------- */
 function drawPrime(pre){
   const trail = [];
-  let attempts = 0;
-  const t0 = performance.now();
-  while(attempts < 400000){
+  for(let guard = 0; guard < 400000; guard++){
     let rest = "";
     for(let i = 0; i < 7; i++) rest += Math.floor(Math.random() * 10);
     const phone = pre + rest;
-    const n = Number(phone.slice(1));     // bỏ chữ số 0 ở đầu
-    attempts++;
-    if(trail.length < 16) trail.push(phone);
-    if(isPrime(n)) return { phone, n, attempts, trail, ms: performance.now() - t0 };
+    if(trail.length < 12) trail.push(phone);
+    if(isPrime(Number(phone.slice(1)))) return { phone, trail };   // bỏ chữ số 0 ở đầu
   }
   return null;
 }
@@ -350,73 +269,28 @@ function setBoard(str, animate){
 }
 
 /* ---------- giao diện ---------- */
-const stateEl = document.getElementById("state");
-const pickEl  = document.getElementById("pick");
-const mAtt    = document.getElementById("mAtt");
-const mMs     = document.getElementById("mMs");
-const proofEl = document.getElementById("proof");
-const histEl  = document.getElementById("hist");
 const spinBtn = document.getElementById("spin");
 const randBtn = document.getElementById("rand");
 const copyBtn = document.getElementById("copy");
 
-const fmt = s => s.slice(0,4) + " " + s.slice(4,7) + " " + s.slice(7);
-
 function choose(p){
   if(busy) return;
   prefix = p;
-  const owner = OWNER[p];
   document.querySelectorAll(".key").forEach(k =>
     k.setAttribute("aria-pressed", String(k.dataset.prefix === p)));
-  flapsEl.style.setProperty("--c", owner.color);
-  pickEl.textContent = `Đầu số ${p} · ${owner.name}`;
-  stateEl.textContent = "Chờ quay";
-  stateEl.classList.remove("ok");
+  flapsEl.style.setProperty("--c", OWNER[p].color);
   copyBtn.hidden = true;
   setBoard(p + "–––––––", false);
 }
 
-function renderProof(r){
-  const owner = OWNER[prefix];
-  const root = Math.floor(Math.sqrt(r.n));
-  proofEl.className = "proof";
-  proofEl.innerHTML = `
-    <div class="row"><div class="k">Số điện thoại</div><div class="v">${fmt(r.phone)}</div></div>
-    <div class="row"><div class="k">Đầu số</div><div class="v">${prefix} · ${owner.name}</div></div>
-    <div class="row"><div class="k">Bỏ 0 đầu</div><div class="v">${r.n.toLocaleString("vi-VN")}</div></div>
-    <div class="row"><div class="k">Chia thử</div><div class="v">mọi số dạng 6k ± 1 tới √n = ${root.toLocaleString("vi-VN")} — không có ước số</div></div>
-    <div class="row"><div class="k">Kết luận</div><div class="v"><span class="hl">${r.n.toLocaleString("vi-VN")} là số nguyên tố ✓</span></div></div>
-  `;
-}
-
-function renderHistory(){
-  if(!history.length){ histEl.innerHTML = '<li class="hist-empty">— trống —</li>'; return; }
-  histEl.innerHTML = "";
-  history.forEach(h => {
-    const li = document.createElement("li");
-    li.style.setProperty("--c", h.color);
-    li.innerHTML = `<span class="dot"></span><span>${fmt(h.phone)}</span><span class="who">${h.who}</span>`;
-    histEl.appendChild(li);
-  });
-}
-
 function spin(){
-  if(busy) return;
-  if(!prefix){
-    stateEl.textContent = "Chọn đầu số trước";
-    bankEl.animate?.([{opacity:1},{opacity:.35},{opacity:1}], {duration:420});
-    return;
-  }
+  if(busy || !prefix) return;
   const r = drawPrime(prefix);
-  if(!r){ stateEl.textContent = "Không tìm được số"; return; }
+  if(!r) return;
 
   busy = true;
   spinBtn.disabled = true;
   copyBtn.hidden = true;
-  stateEl.textContent = "Đang tìm số nguyên tố…";
-  stateEl.classList.remove("ok");
-  proofEl.className = "proof idle";
-  proofEl.innerHTML = '<div class="row"><div class="k">Trạng thái</div><div class="v">Đang chia thử các số ứng viên…</div></div>';
 
   // khung hình = chính các số đã bị loại khi quay
   const frames = r.trail.slice(0, 12);
@@ -432,23 +306,13 @@ function spin(){
   let i = 0;
   (function tick(){
     setBoard(frames[i], true);
-    mAtt.textContent = Math.max(1, Math.round((i + 1) / frames.length * r.attempts));
     i++;
     if(i < frames.length) setTimeout(tick, 95); else finish(r);
   })();
 }
 
 function finish(r){
-  const owner = OWNER[prefix];
   setBoard(r.phone, false);
-  mAtt.textContent = r.attempts;
-  mMs.textContent = (r.ms < 1 ? r.ms.toFixed(2) : Math.round(r.ms)) + " ms";
-  stateEl.textContent = "Số nguyên tố ✓";
-  stateEl.classList.add("ok");
-  renderProof(r);
-  history.unshift({ phone: r.phone, color: owner.color, who: owner.name });
-  history = history.slice(0, 6);
-  renderHistory();
   copyBtn.hidden = false;
   copyBtn.textContent = "Sao chép";
   copyBtn.dataset.value = r.phone;

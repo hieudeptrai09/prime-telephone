@@ -200,14 +200,13 @@ function isPrime(n){
 }
 
 /* ---------- quay 7 chữ số cuối tới khi ra nguyên tố ---------- */
+const randomDigits = n =>
+  Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join("");
+
 function drawPrime(pre){
-  const trail = [];
   for(let guard = 0; guard < 400000; guard++){
-    let rest = "";
-    for(let i = 0; i < 7; i++) rest += Math.floor(Math.random() * 10);
-    const phone = pre + rest;
-    if(trail.length < 12) trail.push(phone);
-    if(isPrime(Number(phone.slice(1)))) return { phone, trail };   // bỏ chữ số 0 ở đầu
+    const rest = randomDigits(7);
+    if(isPrime(Number(pre.slice(1) + rest))) return pre + rest;   // bỏ chữ số 0 ở đầu
   }
   return null;
 }
@@ -285,37 +284,31 @@ function choose(p){
 
 function spin(){
   if(busy || !prefix) return;
-  const r = drawPrime(prefix);
-  if(!r) return;
+  const phone = drawPrime(prefix);
+  if(!phone) return;
 
   busy = true;
   spinBtn.disabled = true;
   copyBtn.hidden = true;
 
-  // khung hình = chính các số đã bị loại khi quay
-  const frames = r.trail.slice(0, 12);
-  while(frames.length < 12){
-    let f = prefix;
-    for(let i = 0; i < 7; i++) f += Math.floor(Math.random() * 10);
-    frames.push(f);
-  }
-  frames[frames.length - 1] = r.phone;
-
-  if(reduce){ finish(r); return; }
+  if(reduce){ finish(phone); return; }
 
   let i = 0;
   (function tick(){
-    setBoard(frames[i], true);
-    i++;
-    if(i < frames.length) setTimeout(tick, 95); else finish(r);
+    if(i++ < 11){
+      setBoard(prefix + randomDigits(7), true);
+      setTimeout(tick, 95);
+    } else {
+      finish(phone);
+    }
   })();
 }
 
-function finish(r){
-  setBoard(r.phone, false);
+function finish(phone){
+  setBoard(phone, !reduce);
   copyBtn.hidden = false;
   copyBtn.textContent = "Sao chép";
-  copyBtn.dataset.value = r.phone;
+  copyBtn.dataset.value = phone;
   spinBtn.disabled = false;
   busy = false;
 }
@@ -339,7 +332,7 @@ copyBtn.addEventListener("click", async () => {
   setTimeout(() => copyBtn.textContent = "Sao chép", 1600);
 });
 
-choose("098");
+choose("037");
 </script>
 </body>
 </html>

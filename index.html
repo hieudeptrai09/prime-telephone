@@ -1,338 +1,588 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bảng đầu số · Quay số nguyên tố</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#0A1E25;
-    --bone:#EFE7D6;
-    --bone-dim:#C9BFAC;
-    --brass:#C8933E;
-    --brass-lt:#E8BE72;
-    --line:rgba(200,147,62,.22);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bảng đầu số · Quay số nguyên tố</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0a1e25;
+        --bone: #efe7d6;
+        --bone-dim: #c9bfac;
+        --brass: #c8933e;
+        --brass-lt: #e8be72;
+        --line: rgba(200, 147, 62, 0.22);
 
-    --viettel:#E03127;
-    --mobifone:#2C6FD1;
-    --vinaphone:#8ED04A;
-    --vnmobile:#F26522;
-    --itel:#A177E0;
+        --viettel: #e03127;
+        --mobifone: #2c6fd1;
+        --vinaphone: #8ed04a;
+        --vnmobile: #f26522;
+        --itel: #a177e0;
 
-    --display:"Barlow Condensed","Arial Narrow","Helvetica Neue",sans-serif;
-    --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Consolas,monospace;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0}
-  body{
-    min-height:100vh;
-    background:
-      radial-gradient(120% 80% at 50% -10%, #16414F 0%, rgba(10,30,37,0) 60%),
-      repeating-linear-gradient(180deg, rgba(255,255,255,.022) 0 1px, transparent 1px 4px),
-      var(--ink);
-    color:var(--bone);font-family:var(--body);-webkit-font-smoothing:antialiased;
-    padding:clamp(18px,4vw,48px) clamp(14px,4vw,32px) 56px;
-    display:flex;justify-content:center;
-  }
-  .shell{width:100%;max-width:860px}
-
-  .eyebrow{
-    font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
-    color:var(--brass);display:flex;align-items:center;gap:10px;margin-bottom:14px;
-  }
-  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
-  h1{
-    font-family:var(--display);font-weight:700;
-    font-size:clamp(34px,8.5vw,68px);line-height:.94;text-transform:uppercase;margin:0 0 10px;
-  }
-  h1 em{font-style:normal;color:var(--brass-lt)}
-
-  /* ---------- bảng đầu số (signature) ---------- */
-  .panel{
-    margin-top:26px;border:1px solid var(--line);border-radius:4px;
-    background:linear-gradient(180deg,#0D2731,#0A1E25);
-    box-shadow:inset 0 1px 0 rgba(232,190,114,.14), 0 18px 40px -28px #000;
-    overflow:hidden;
-  }
-  .bank{padding:14px 14px 16px}
-  .bank-row{
-    display:flex;align-items:flex-start;gap:12px;
-    padding:12px 0;border-bottom:1px dashed rgba(239,231,214,.1);
-  }
-  .bank-row:last-child{border-bottom:0}
-  .bank-name{
-    flex:none;width:104px;padding-top:6px;
-    font-family:var(--display);font-size:15px;font-weight:600;letter-spacing:.06em;
-    text-transform:uppercase;line-height:1.15;color:var(--bone);
-    display:flex;align-items:baseline;gap:7px;
-  }
-  .bank-name i{width:7px;height:7px;border-radius:50%;background:var(--c);flex:none;
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--c) 24%, transparent)}
-  .keys{display:flex;flex-wrap:wrap;gap:6px}
-  .key{
-    -webkit-appearance:none;appearance:none;cursor:pointer;
-    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015));
-    border:1px solid rgba(239,231,214,.16);border-top-color:rgba(239,231,214,.26);
-    border-radius:3px;color:var(--bone);
-    font-family:var(--mono);font-size:14px;font-weight:600;letter-spacing:.08em;
-    padding:8px 11px;box-shadow:0 2px 0 rgba(0,0,0,.3);
-    transition:transform .12s, background .16s, border-color .16s;
-  }
-  .key:hover{border-color:color-mix(in srgb, var(--c) 70%, transparent);transform:translateY(-1px)}
-  .key:active{transform:translateY(1px);box-shadow:0 0 0 rgba(0,0,0,.3)}
-  .key[aria-pressed="true"]{
-    background:var(--c);border-color:var(--c);color:#0E2027;
-    box-shadow:0 0 0 rgba(0,0,0,.3), 0 0 18px -4px var(--c);
-    transform:translateY(1px);
-  }
-  .key:focus-visible{outline:2px solid var(--brass-lt);outline-offset:2px}
-
-  /* ---------- bảng lật ---------- */
-  .flaps{
-    display:flex;align-items:center;justify-content:center;gap:clamp(3px,1.2vw,7px);
-    padding:clamp(24px,6vw,34px) 10px clamp(24px,6vw,32px);
-    border-top:1px solid var(--line);
-  }
-  .gap{width:clamp(6px,2.4vw,16px)}
-  .flap{
-    width:clamp(24px,7.4vw,48px);height:clamp(38px,11vw,68px);border-radius:2px;
-    background:linear-gradient(180deg,#F6F0E2 0%,#EFE7D6 48%,#DCD2BC 52%,#EFE7D6 100%);
-    color:#11242B;font-family:var(--mono);font-weight:700;
-    font-size:clamp(19px,5.6vw,36px);
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 2px 0 rgba(0,0,0,.35), inset 0 0 0 1px rgba(0,0,0,.12);position:relative;
-  }
-  .flap::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.22)}
-  .flap.pre{
-    background:linear-gradient(180deg,
-      color-mix(in srgb, var(--c) 70%, #F6F0E2) 0%,
-      var(--c) 48%,
-      color-mix(in srgb, var(--c) 78%, #000) 52%,
-      var(--c) 100%);
-    color:#0E2027;
-  }
-  .flap.turn{animation:flip .13s ease-out}
-  @keyframes flip{
-    0%{transform:perspective(200px) rotateX(0)}
-    49%{transform:perspective(200px) rotateX(-88deg)}
-    50%{transform:perspective(200px) rotateX(88deg)}
-    100%{transform:perspective(200px) rotateX(0)}
-  }
-  .action{
-    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-    padding:13px 14px;border-top:1px solid var(--line);background:rgba(255,255,255,.015);
-  }
-  .spin{
-    -webkit-appearance:none;appearance:none;cursor:pointer;
-    background:var(--brass);border:1px solid var(--brass-lt);color:#0E2027;
-    font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:.1em;
-    text-transform:uppercase;padding:10px 26px;border-radius:2px;transition:background .16s, transform .12s;
-  }
-  .spin:hover{background:var(--brass-lt)}
-  .spin:active{transform:translateY(1px)}
-  .spin[disabled]{opacity:.45;cursor:progress}
-  .spin:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
-  .ghost{
-    -webkit-appearance:none;appearance:none;cursor:pointer;
-    background:transparent;border:1px solid var(--line);color:var(--bone-dim);
-    font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-    padding:8px 12px;border-radius:2px;transition:.16s;
-  }
-  .ghost:hover{border-color:var(--brass);color:var(--brass-lt)}
-  .ghost:focus-visible{outline:2px solid var(--brass-lt);outline-offset:2px}
-  .ghost.right{margin-left:auto}
-
-  @media (max-width:560px){
-    .bank-row{flex-direction:column;gap:8px}
-    .bank-name{width:auto;padding-top:0}
-  }
-  @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
-</style>
-</head>
-<body>
-<div class="shell">
-
-  <div class="eyebrow">33 đầu số di động Việt Nam</div>
-  <h1>Chọn đầu số,<br>quay <em>số nguyên tố</em></h1>
-  <section class="panel">
-    <div class="bank" id="bank"></div>
-
-    <div class="flaps" id="flaps" aria-live="polite" aria-atomic="true"></div>
-
-    <div class="action">
-      <button class="spin" id="spin">Quay số</button>
-      <button class="ghost right" id="rand">Đầu số bất kỳ</button>
-      <button class="ghost" id="copy" hidden>Sao chép</button>
-    </div>
-  </section>
-</div>
-
-<script>
-const CARRIERS = [
-  { key:"viettel",   name:"Viettel",      color:"var(--viettel)",  prefixes:["032","033","034","035","036","037","038","039","086","096","097","098"] },
-  { key:"mobifone",  name:"MobiFone",     color:"var(--mobifone)", prefixes:["070","076","077","078","079","089","090","093"] },
-  { key:"vinaphone", name:"VinaPhone",    color:"var(--vinaphone)",prefixes:["081","082","083","084","085","088","091","094"] },
-  { key:"vnmobile",  name:"Vietnamobile", color:"var(--vnmobile)", prefixes:["052","056","058","092"] },
-  { key:"itel",      name:"iTel",         color:"var(--itel)",     prefixes:["087"] }
-];
-
-// tra ngược: đầu số -> nhà mạng
-const OWNER = {};
-CARRIERS.forEach(c => c.prefixes.forEach(p => OWNER[p] = c));
-const ALL = Object.keys(OWNER);
-
-let prefix = null;
-let busy = false;
-
-/* ---------- số nguyên tố: chia thử 6k ± 1 ---------- */
-function isPrime(n){
-  if(n < 2) return false;
-  if(n % 2 === 0) return n === 2;
-  if(n % 3 === 0) return n === 3;
-  for(let i = 5; i * i <= n; i += 6){
-    if(n % i === 0 || n % (i + 2) === 0) return false;
-  }
-  return true;
-}
-
-/* ---------- quay 7 chữ số cuối tới khi ra nguyên tố ---------- */
-const randomDigits = n =>
-  Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join("");
-
-function drawPrime(pre){
-  for(let guard = 0; guard < 400000; guard++){
-    const rest = randomDigits(7);
-    if(isPrime(Number(pre.slice(1) + rest))) return pre + rest;   // bỏ chữ số 0 ở đầu
-  }
-  return null;
-}
-
-/* ---------- dựng bảng phím ---------- */
-const bankEl = document.getElementById("bank");
-CARRIERS.forEach(c => {
-  const row = document.createElement("div");
-  row.className = "bank-row";
-  row.style.setProperty("--c", c.color);
-  const name = document.createElement("div");
-  name.className = "bank-name";
-  name.innerHTML = `<i></i>${c.name}`;
-  const keys = document.createElement("div");
-  keys.className = "keys";
-  c.prefixes.forEach(p => {
-    const b = document.createElement("button");
-    b.className = "key";
-    b.type = "button";
-    b.textContent = p;
-    b.dataset.prefix = p;
-    b.setAttribute("aria-pressed", "false");
-    b.addEventListener("click", () => choose(p));
-    keys.appendChild(b);
-  });
-  row.append(name, keys);
-  bankEl.appendChild(row);
-});
-
-/* ---------- bảng lật ---------- */
-const flapsEl = document.getElementById("flaps");
-const cells = [];
-[3, "gap", 3, "gap", 4].forEach(part => {
-  if(part === "gap"){
-    const g = document.createElement("span"); g.className = "gap"; flapsEl.appendChild(g); return;
-  }
-  for(let i = 0; i < part; i++){
-    const d = document.createElement("span");
-    d.className = "flap" + (cells.length < 3 ? " pre" : "");
-    d.textContent = "–";
-    flapsEl.appendChild(d);
-    cells.push(d);
-  }
-});
-
-const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-function setBoard(str, animate){
-  for(let i = 0; i < cells.length; i++){
-    const ch = str[i] ?? "–";
-    if(cells[i].textContent !== ch){
-      cells[i].textContent = ch;
-      if(animate && !reduce){
-        cells[i].classList.remove("turn");
-        void cells[i].offsetWidth;
-        cells[i].classList.add("turn");
+        --display:
+          "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+        --body:
+          "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto,
+          sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
       }
-    }
-  }
-}
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        min-height: 100vh;
+        background:
+          radial-gradient(
+            120% 80% at 50% -10%,
+            #16414f 0%,
+            rgba(10, 30, 37, 0) 60%
+          ),
+          repeating-linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.022) 0 1px,
+            transparent 1px 4px
+          ),
+          var(--ink);
+        color: var(--bone);
+        font-family: var(--body);
+        -webkit-font-smoothing: antialiased;
+        padding: clamp(18px, 4vw, 48px) clamp(14px, 4vw, 32px) 56px;
+        display: flex;
+        justify-content: center;
+      }
+      .shell {
+        width: 100%;
+        max-width: 860px;
+      }
 
-/* ---------- giao diện ---------- */
-const spinBtn = document.getElementById("spin");
-const randBtn = document.getElementById("rand");
-const copyBtn = document.getElementById("copy");
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--brass);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .eyebrow::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+      h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(34px, 8.5vw, 68px);
+        line-height: 0.94;
+        text-transform: uppercase;
+        margin: 0 0 10px;
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--brass-lt);
+      }
 
-function choose(p){
-  if(busy) return;
-  prefix = p;
-  document.querySelectorAll(".key").forEach(k =>
-    k.setAttribute("aria-pressed", String(k.dataset.prefix === p)));
-  flapsEl.style.setProperty("--c", OWNER[p].color);
-  copyBtn.hidden = true;
-  setBoard(p + "–––––––", false);
-}
+      /* ---------- bảng đầu số (signature) ---------- */
+      .panel {
+        margin-top: 26px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: linear-gradient(180deg, #0d2731, #0a1e25);
+        box-shadow:
+          inset 0 1px 0 rgba(232, 190, 114, 0.14),
+          0 18px 40px -28px #000;
+        overflow: hidden;
+      }
+      .bank {
+        padding: 14px 14px 16px;
+      }
+      .bank-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px dashed rgba(239, 231, 214, 0.1);
+      }
+      .bank-row:last-child {
+        border-bottom: 0;
+      }
+      .bank-name {
+        flex: none;
+        width: 104px;
+        padding-top: 6px;
+        font-family: var(--display);
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        line-height: 1.15;
+        color: var(--bone);
+        display: flex;
+        align-items: baseline;
+        gap: 7px;
+      }
+      .bank-name i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--c);
+        flex: none;
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 24%, transparent);
+      }
+      .keys {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .key {
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.015)
+        );
+        border: 1px solid rgba(239, 231, 214, 0.16);
+        border-top-color: rgba(239, 231, 214, 0.26);
+        border-radius: 3px;
+        color: var(--bone);
+        font-family: var(--mono);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        padding: 8px 11px;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+        transition:
+          transform 0.12s,
+          background 0.16s,
+          border-color 0.16s;
+      }
+      .key:hover {
+        border-color: color-mix(in srgb, var(--c) 70%, transparent);
+        transform: translateY(-1px);
+      }
+      .key:active {
+        transform: translateY(1px);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0.3);
+      }
+      .key[aria-pressed="true"] {
+        background: var(--c);
+        border-color: var(--c);
+        color: #0e2027;
+        box-shadow:
+          0 0 0 rgba(0, 0, 0, 0.3),
+          0 0 18px -4px var(--c);
+        transform: translateY(1px);
+      }
+      .key:focus-visible {
+        outline: 2px solid var(--brass-lt);
+        outline-offset: 2px;
+      }
 
-function spin(){
-  if(busy || !prefix) return;
-  const phone = drawPrime(prefix);
-  if(!phone) return;
+      /* ---------- bảng lật ---------- */
+      .flaps {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(3px, 1.2vw, 7px);
+        padding: clamp(24px, 6vw, 34px) 10px clamp(24px, 6vw, 32px);
+        border-top: 1px solid var(--line);
+      }
+      .gap {
+        width: clamp(6px, 2.4vw, 16px);
+      }
+      .flap {
+        width: clamp(24px, 7.4vw, 48px);
+        height: clamp(38px, 11vw, 68px);
+        border-radius: 2px;
+        background: linear-gradient(
+          180deg,
+          #f6f0e2 0%,
+          #efe7d6 48%,
+          #dcd2bc 52%,
+          #efe7d6 100%
+        );
+        color: #11242b;
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: clamp(19px, 5.6vw, 36px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+          0 2px 0 rgba(0, 0, 0, 0.35),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+        position: relative;
+      }
+      .flap::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.22);
+      }
+      .flap.pre {
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--c) 70%, #f6f0e2) 0%,
+          var(--c) 48%,
+          color-mix(in srgb, var(--c) 78%, #000) 52%,
+          var(--c) 100%
+        );
+        color: #0e2027;
+      }
+      .flap.turn {
+        animation: flip 0.13s ease-out;
+      }
+      @keyframes flip {
+        0% {
+          transform: perspective(200px) rotateX(0);
+        }
+        49% {
+          transform: perspective(200px) rotateX(-88deg);
+        }
+        50% {
+          transform: perspective(200px) rotateX(88deg);
+        }
+        100% {
+          transform: perspective(200px) rotateX(0);
+        }
+      }
+      .action {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        padding: 13px 14px;
+        border-top: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.015);
+      }
+      .spin {
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        background: var(--brass);
+        border: 1px solid var(--brass-lt);
+        color: #0e2027;
+        font-family: var(--display);
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 10px 26px;
+        border-radius: 2px;
+        transition:
+          background 0.16s,
+          transform 0.12s;
+      }
+      .spin:hover {
+        background: var(--brass-lt);
+      }
+      .spin:active {
+        transform: translateY(1px);
+      }
+      .spin[disabled] {
+        opacity: 0.45;
+        cursor: progress;
+      }
+      .spin:focus-visible {
+        outline: 2px solid var(--bone);
+        outline-offset: 2px;
+      }
+      .ghost {
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--bone-dim);
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 8px 12px;
+        border-radius: 2px;
+        transition: 0.16s;
+      }
+      .ghost:hover {
+        border-color: var(--brass);
+        color: var(--brass-lt);
+      }
+      .ghost:focus-visible {
+        outline: 2px solid var(--brass-lt);
+        outline-offset: 2px;
+      }
+      .ghost.right {
+        margin-left: auto;
+      }
 
-  busy = true;
-  spinBtn.disabled = true;
-  copyBtn.hidden = true;
+      @media (max-width: 560px) {
+        .bank-row {
+          flex-direction: column;
+          gap: 8px;
+        }
+        .bank-name {
+          width: auto;
+          padding-top: 0;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="eyebrow">33 đầu số di động Việt Nam</div>
+      <h1>Chọn đầu số,<br />quay <em>số nguyên tố</em></h1>
+      <section class="panel">
+        <div class="bank" id="bank"></div>
 
-  if(reduce){ finish(phone); return; }
+        <div
+          class="flaps"
+          id="flaps"
+          aria-live="polite"
+          aria-atomic="true"
+        ></div>
 
-  let i = 0;
-  (function tick(){
-    if(i++ < 11){
-      setBoard(prefix + randomDigits(7), true);
-      setTimeout(tick, 95);
-    } else {
-      finish(phone);
-    }
-  })();
-}
+        <div class="action">
+          <button class="spin" id="spin">Quay số</button>
+          <button class="ghost right" id="rand">Đầu số bất kỳ</button>
+          <button class="ghost" id="copy" hidden>Sao chép</button>
+        </div>
+      </section>
+    </div>
 
-function finish(phone){
-  setBoard(phone, !reduce);
-  copyBtn.hidden = false;
-  copyBtn.textContent = "Sao chép";
-  copyBtn.dataset.value = phone;
-  spinBtn.disabled = false;
-  busy = false;
-}
+    <script>
+      const CARRIERS = [
+        {
+          key: "viettel",
+          name: "Viettel",
+          color: "var(--viettel)",
+          prefixes: [
+            "032",
+            "033",
+            "034",
+            "035",
+            "036",
+            "037",
+            "038",
+            "039",
+            "086",
+            "096",
+            "097",
+            "098",
+          ],
+        },
+        {
+          key: "mobifone",
+          name: "MobiFone",
+          color: "var(--mobifone)",
+          prefixes: ["070", "076", "077", "078", "079", "089", "090", "093"],
+        },
+        {
+          key: "vinaphone",
+          name: "VinaPhone",
+          color: "var(--vinaphone)",
+          prefixes: ["081", "082", "083", "084", "085", "088", "091", "094"],
+        },
+        {
+          key: "vnmobile",
+          name: "Vietnamobile",
+          color: "var(--vnmobile)",
+          prefixes: ["052", "056", "058", "092"],
+        },
+        { key: "itel", name: "iTel", color: "var(--itel)", prefixes: ["087"] },
+      ];
 
-spinBtn.addEventListener("click", spin);
-randBtn.addEventListener("click", () => {
-  if(busy) return;
-  choose(ALL[Math.floor(Math.random() * ALL.length)]);
-});
+      // tra ngược: đầu số -> nhà mạng
+      const OWNER = {};
+      CARRIERS.forEach((c) => c.prefixes.forEach((p) => (OWNER[p] = c)));
+      const ALL = Object.keys(OWNER);
 
-copyBtn.addEventListener("click", async () => {
-  const v = copyBtn.dataset.value || "";
-  try{
-    await navigator.clipboard.writeText(v);
-  }catch{
-    const t = document.createElement("textarea");
-    t.value = v; document.body.appendChild(t); t.select();
-    document.execCommand("copy"); t.remove();
-  }
-  copyBtn.textContent = "Đã sao chép";
-  setTimeout(() => copyBtn.textContent = "Sao chép", 1600);
-});
+      let prefix = null;
+      let busy = false;
 
-choose("037");
-</script>
-</body>
+      /* ---------- số nguyên tố: chia thử 6k ± 1 ---------- */
+      function isPrime(n) {
+        if (n < 2) return false;
+        if (n % 2 === 0) return n === 2;
+        if (n % 3 === 0) return n === 3;
+        for (let i = 5; i * i <= n; i += 6) {
+          if (n % i === 0 || n % (i + 2) === 0) return false;
+        }
+        return true;
+      }
+
+      /* ---------- quay 7 chữ số cuối tới khi ra nguyên tố ---------- */
+      const randomDigits = (n) =>
+        Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join(
+          "",
+        );
+
+      function drawPrime(pre) {
+        for (let guard = 0; guard < 400000; guard++) {
+          const rest = randomDigits(7);
+          if (isPrime(Number(pre.slice(1) + rest))) return pre + rest; // bỏ chữ số 0 ở đầu
+        }
+        return null;
+      }
+
+      /* ---------- dựng bảng phím ---------- */
+      const bankEl = document.getElementById("bank");
+      CARRIERS.forEach((c) => {
+        const row = document.createElement("div");
+        row.className = "bank-row";
+        row.style.setProperty("--c", c.color);
+        const name = document.createElement("div");
+        name.className = "bank-name";
+        name.innerHTML = `<i></i>${c.name}`;
+        const keys = document.createElement("div");
+        keys.className = "keys";
+        c.prefixes.forEach((p) => {
+          const b = document.createElement("button");
+          b.className = "key";
+          b.type = "button";
+          b.textContent = p;
+          b.dataset.prefix = p;
+          b.setAttribute("aria-pressed", "false");
+          b.addEventListener("click", () => choose(p));
+          keys.appendChild(b);
+        });
+        row.append(name, keys);
+        bankEl.appendChild(row);
+      });
+
+      /* ---------- bảng lật ---------- */
+      const flapsEl = document.getElementById("flaps");
+      const cells = [];
+      [4, "gap", 3, "gap", 3].forEach((part) => {
+        if (part === "gap") {
+          const g = document.createElement("span");
+          g.className = "gap";
+          flapsEl.appendChild(g);
+          return;
+        }
+        for (let i = 0; i < part; i++) {
+          const d = document.createElement("span");
+          d.className = "flap" + (cells.length < 3 ? " pre" : "");
+          d.textContent = "–";
+          flapsEl.appendChild(d);
+          cells.push(d);
+        }
+      });
+
+      const reduce = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      function setBoard(str, animate) {
+        for (let i = 0; i < cells.length; i++) {
+          const ch = str[i] ?? "–";
+          if (cells[i].textContent !== ch) {
+            cells[i].textContent = ch;
+            if (animate && !reduce) {
+              cells[i].classList.remove("turn");
+              void cells[i].offsetWidth;
+              cells[i].classList.add("turn");
+            }
+          }
+        }
+      }
+
+      /* ---------- giao diện ---------- */
+      const spinBtn = document.getElementById("spin");
+      const randBtn = document.getElementById("rand");
+      const copyBtn = document.getElementById("copy");
+
+      function choose(p) {
+        if (busy) return;
+        prefix = p;
+        document
+          .querySelectorAll(".key")
+          .forEach((k) =>
+            k.setAttribute("aria-pressed", String(k.dataset.prefix === p)),
+          );
+        flapsEl.style.setProperty("--c", OWNER[p].color);
+        copyBtn.hidden = true;
+        setBoard(p + "–––––––", false);
+      }
+
+      function spin() {
+        if (busy || !prefix) return;
+        const phone = drawPrime(prefix);
+        if (!phone) return;
+
+        busy = true;
+        spinBtn.disabled = true;
+        copyBtn.hidden = true;
+
+        if (reduce) {
+          finish(phone);
+          return;
+        }
+
+        let i = 0;
+        (function tick() {
+          if (i++ < 11) {
+            setBoard(prefix + randomDigits(7), true);
+            setTimeout(tick, 95);
+          } else {
+            finish(phone);
+          }
+        })();
+      }
+
+      function finish(phone) {
+        setBoard(phone, !reduce);
+        copyBtn.hidden = false;
+        copyBtn.textContent = "Sao chép";
+        copyBtn.dataset.value = phone;
+        spinBtn.disabled = false;
+        busy = false;
+      }
+
+      spinBtn.addEventListener("click", spin);
+      randBtn.addEventListener("click", () => {
+        if (busy) return;
+        choose(ALL[Math.floor(Math.random() * ALL.length)]);
+      });
+
+      copyBtn.addEventListener("click", async () => {
+        const v = copyBtn.dataset.value || "";
+        try {
+          await navigator.clipboard.writeText(v);
+        } catch {
+          const t = document.createElement("textarea");
+          t.value = v;
+          document.body.appendChild(t);
+          t.select();
+          document.execCommand("copy");
+          t.remove();
+        }
+        copyBtn.textContent = "Đã sao chép";
+        setTimeout(() => (copyBtn.textContent = "Sao chép"), 1600);
+      });
+
+      choose("037");
+    </script>
+  </body>
 </html>
